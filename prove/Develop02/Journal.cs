@@ -21,6 +21,7 @@ public class Journal
         entry1._date = DateTime.Now.ToString("dddd, dd MMMM yyyy");
         entry1._prompt = promptGenerator.Generate();
         Console.WriteLine(entry1._prompt);
+        Console.Write(">");
         entry1._entry = Console.ReadLine();
         return entry1;
     }
@@ -28,6 +29,7 @@ public class Journal
     public void WriteToFile()
     {
         Console.WriteLine("Please input file name with .txt extension: ");
+        Console.Write(">");
         _fileName = Console.ReadLine();
             using (StreamWriter outputFile = new StreamWriter(_fileName))
             {
@@ -42,6 +44,7 @@ public class Journal
     public List<Entry> LoadFromFile()
     {
         Console.WriteLine("File name with extension: ");
+        Console.Write(">");
         string loadfile = Console.ReadLine();
         string[] entries = System.IO.File.ReadAllLines(loadfile);
         List<Entry> journal_entries = new List<Entry>();
