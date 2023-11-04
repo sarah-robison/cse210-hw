@@ -10,15 +10,21 @@ public class Activity{
         Console.Write(">");
         _duration = int.Parse(Console.ReadLine());
         Console.WriteLine(_summary);
+        Thread.Sleep(1000); //spinner here?
+        Console.WriteLine("We will begin soon.");
+        Thread.Sleep(3000); //spinner here?
     }
     protected void DisplayEnd()
     {
-        Console.WriteLine($"You have completed the {_name}.");
+        Console.WriteLine("Well done!");
+        Thread.Sleep(2000); //spinner here?
+        Console.WriteLine($"You have completed the {_name}. Your activity took {_duration} seconds.");
+        Thread.Sleep(5000); //spinner here?
     }
-    protected void Spinner()
+    protected void Spinner(int t)
     {
         DateTime startTime = DateTime.Now;
-        DateTime futureTime = startTime.AddSeconds(5);
+        DateTime futureTime = startTime.AddSeconds(t);
         DateTime currentTime = DateTime.Now;
 
         while (currentTime < futureTime)

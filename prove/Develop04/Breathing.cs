@@ -9,6 +9,7 @@ public class Breathing : Activity
 
     public void RunBreathingActivity()
     {
+        base.DisplayStart();
         DateTime start = DateTime.Now;
         DateTime end = start.AddSeconds(_duration);
         DateTime current = DateTime.Now;
@@ -20,6 +21,6 @@ public class Breathing : Activity
             base.CountDown(8);
             current = DateTime.Now;
         }
-        
+        base.DisplayEnd();
     }
 }
