@@ -1,31 +1,48 @@
 public class Listing : Activity
 {
-    private List<string> _listPrompts;
+    private string[] _listPrompts = {
+        "Who are people that you appreciate?",
+        "What are personal strenghts of yours?",
+        "Who are people that you have helped this week?",
+        "When have you felt the Holy Ghost this month?",
+        "Who are some of your personal heroes?",
+        "What are you grateful for today?"
+    };
     private List<string> _inputList;
 
-    public Listing(int duration)
+    public Listing()
     {
         _name = "Listing Activity";
-        _duration = duration;
-        _summary = "In this activity, you will...";
-        //do i make my empty list here?
+        _duration = 30;
+        _summary = "This activity will help you reflect on the good things in your life by having you list as many things as you can in a certain area.";
     }
 
     private string GetRandomPrompt()
     {
-        //get a random list prompt
-        //return prompt
+        Random randomGenerator = new Random();
+        int number = randomGenerator.Next(0, 6);
+
+        return _listPrompts[number];
     }
     public void RunListingActivity()
     {
-        //display start
-        //display prompt
-        //accept input
-        //count input
-        //display end
+        base.DisplayStart();
+        Console.WriteLine(GetRandomPrompt());
+        base.CountDown(5);
+        Console.WriteLine("Start listing:");
+        DateTime start = DateTime.Now;
+        DateTime end = start.AddSeconds(_duration);
+        DateTime current = DateTime.Now;
+        while (current < end)
+        {
+            _inputList.Add(Console.ReadLine());
+            current = DateTime.Now;
+        }
+        Console.WriteLine($"You listed off {GetListLength()} different things!");
+        base.DisplayEnd();
     }
     private int GetListLength()
     {
-        //return lenght of input list
+        return _inputList.Count;
     }
 }
