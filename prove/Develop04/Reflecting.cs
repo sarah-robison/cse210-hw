@@ -24,7 +24,7 @@ public class Reflecting : Activity
     {
         _name = "Reflecting Activity";
         _duration = 30;
-        _summary = "This activity will help you reflect on times in your life when you have shown strength and resilience. This will help you recognize the power you have and how you can use it in other aspects of your life.";
+        _summary = "This activity will help you reflect on times in your life when you have shown strength and resilience. \nThis will help you recognize the power you have and how you can use it in other aspects of your life.";
     }
 
     private string GetRandPrompt()
@@ -38,35 +38,44 @@ public class Reflecting : Activity
     {
         //I had to look this up online
         Random rand = new Random();
+        string[] qPrompts = _questionPrompts;
         for (int i = 0; i < 8; i++)
         {
             int j = rand.Next(i,9);
-            string temp = _questionPrompts[i];
-            _questionPrompts[i] = _questionPrompts[j];
-            _questionPrompts[j] = temp;
+            string temp = qPrompts[i];
+            qPrompts[i] = qPrompts[j];
+            qPrompts[j] = temp;
         }
-        return _questionPrompts;
+        return qPrompts;
     }
     public void RunReflectingActivity()
     {
         base.DisplayStart();
-        Console.WriteLine(GetRandPrompt());
-        base.Spinner(2);
+        Console.WriteLine("Consider the following prompt:\n");
+        Console.WriteLine($" ---{GetRandPrompt()}--- \n");
+        Console.Write("When you have something in mind, press enter.");
+        Console.ReadLine();
+        Console.WriteLine("Now ponder each of the following questions as they relate to your experience.");
+        Console.Write("Begin in...");
+        CountDown(5);
+        Console.Clear();
         DateTime start = DateTime.Now;
         DateTime end = start.AddSeconds(_duration);
         DateTime current = DateTime.Now;
         string[] questions = RandomizePromptQuestion();
         int pause = 5;
+        int i = 0;
         if (_duration > 45)
             {
                 pause = (_duration / 9) + 1;
             }
-        while (current > end)
+        while (current < end)
         {
-            int i = 0;
-            Console.WriteLine(questions[i]);
+
+            Console.Write(questions[i]);
             base.Spinner(pause);
-            i = i+1;
+            Console.WriteLine("");
+            i ++;
             current = DateTime.Now;
         }
         base.DisplayEnd();

@@ -8,13 +8,13 @@ public class Listing : Activity
         "Who are some of your personal heroes?",
         "What are you grateful for today?"
     };
-    private List<string> _inputList;
+    private List<string> _inputList = new List<string>();
 
     public Listing()
     {
         _name = "Listing Activity";
         _duration = 30;
-        _summary = "This activity will help you reflect on the good things in your life by having you list as many things as you can in a certain area.";
+        _summary = "This activity will help you reflect on the good things in your life by having you list \nas many things as you can in a certain area.";
     }
 
     private string GetRandomPrompt()
@@ -27,14 +27,17 @@ public class Listing : Activity
     public void RunListingActivity()
     {
         base.DisplayStart();
-        Console.WriteLine(GetRandomPrompt());
+        Console.WriteLine("List as many responses you can to the following prompt:");
+        Console.WriteLine($"---{GetRandomPrompt()}---");
+        Console.Write("Begin in...");
         base.CountDown(5);
-        Console.WriteLine("Start listing:");
+        Console.WriteLine("\nStart listing:");
         DateTime start = DateTime.Now;
         DateTime end = start.AddSeconds(_duration);
         DateTime current = DateTime.Now;
         while (current < end)
         {
+            Console.Write(">");
             _inputList.Add(Console.ReadLine());
             current = DateTime.Now;
         }
