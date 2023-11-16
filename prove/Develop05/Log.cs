@@ -16,10 +16,11 @@ public class Log
         }
         return tot;
     }
-    public void DisplayGoals()
+    public void DisplayGoals() //do i need one for incomplete goals for event recording?
     {
         foreach (Goal g in _goalList)
         {
+            //display it with a number!
             g.DisplayGoal();
         }
         return;
@@ -37,7 +38,7 @@ public class Log
             {
                 foreach (Goal goal in _goalList)
                 {
-                outputFile.WriteLine();//make another method for each type for file writing
+                    outputFile.WriteLine(goal.FileDisplay());
                 }
             }
         Console.WriteLine($"Saved successfully as {_fileName}");
@@ -55,12 +56,21 @@ public class Log
         {
             string[] parts = g.Split("~");
 
-            Goal goal1 = new Goal();
-            //update this to be appropriate for the goals not entries
-            //entry1._date = parts[0];
-            //entry1._prompt = parts[1];
-            //entry1._entry = parts[2];
-            goals.Add(goal1);
+            if (parts[0] == "Checklist")
+            {
+                Checklist goal1 = new Checklist(parts[1],parts[2],int.Parse(parts[3]),bool.Parse(parts[4]),int.Parse(parts[5]),int.Parse(parts[6]),int.Parse(parts[7]));
+                goals.Add(goal1);
+            }
+            else if (parts[0] == "Eternal")
+            {
+                Eternal goal1 = new Eternal(parts[1],parts[2],int.Parse(parts[3]),int.Parse(parts[4]));
+                goals.Add(goal1);
+            }
+            else
+            {
+                OneTime goal1 = new OneTime(parts[1],parts[2],int.Parse(parts[3]),bool.Parse(parts[4]));
+                goals.Add(goal1);
+            }
         }
         return goals;
     }

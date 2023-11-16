@@ -12,6 +12,13 @@ public class Checklist : Goal
         _current = 0;
         _bonusPoints = b;
     }
+    public Checklist(string n, string d, int p, bool comp, int t, int c, int b) : base(n,d,p)
+    {
+        _completion = comp;
+        _total = t;
+        _current = c;
+        _bonusPoints = b;
+    }
     public override void RecordEvent()
     {
         _current += 1;
@@ -44,5 +51,9 @@ public class Checklist : Goal
         {
             return (_points * _current) + _bonusPoints;
         }
+    }
+    public override string FileDisplay()
+    {
+        return $"Checklist Goal~{_name}~{_description}~{_points}~{_completion}~{_total}~{_current}~{_bonusPoints}";
     }
 }
