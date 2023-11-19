@@ -1,0 +1,4 @@
+Checklist~Read BOM~Read a chapter of the Book of Mormon~50~True~5~5~100
+Eternal~Pray~Pray meaningfully~30~2
+OneTime~Laundry~Do a load of whites~15~True
+Checklist~Temple~attend the temple~100~False~3~0~200

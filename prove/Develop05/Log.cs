@@ -54,8 +54,8 @@ public class Log
         else
         {
             Console.WriteLine("Error.");
-            //tell them to try again?
         }
+        Console.Clear();
     }
     private Checklist AddChecklist()
     {
@@ -82,7 +82,7 @@ public class Log
         Console.WriteLine("What is the name of your goal?");
         Console.Write(">");
         string name = Console.ReadLine();
-        Console.WriteLine("What is the name of your goal?");
+        Console.WriteLine("What is the description of your goal?");
         Console.Write(">");
         string descrip = Console.ReadLine();
         Console.WriteLine("How many points is this goal worth?");
@@ -96,7 +96,7 @@ public class Log
         Console.WriteLine("What is the name of your goal?");
         Console.Write(">");
         string name = Console.ReadLine();
-        Console.WriteLine("What is the name of your goal?");
+        Console.WriteLine("What is the description of your goal?");
         Console.Write(">");
         string descrip = Console.ReadLine();
         Console.WriteLine("How many points is this goal worth?");
@@ -118,10 +118,11 @@ public class Log
                 }
             }
         Console.WriteLine($"Saved successfully as {_fileName}");
+        Console.WriteLine("Press Enter to return to the menu");
+        Console.ReadLine();
     }
     public void LoadFile()
     {
-        //load txt file to a log
         Console.WriteLine("File name with extension: ");
         Console.Write(">");
         _fileName = Console.ReadLine();
@@ -149,6 +150,8 @@ public class Log
             }
         }
         _goalList = goals;
+        Console.WriteLine("File successfully loaded!");
+        Thread.Sleep(1000);
         return;
     }
 }

@@ -8,7 +8,7 @@ class Program
         
         Log myLog = new Log();
 
-        while (selection != 5)
+        while (selection != 6)
         {
             Console.WriteLine($"You have {myLog.GetTotalPoints()} points.\n");
 
@@ -27,20 +27,34 @@ class Program
 
             if (selection == 1)
             {
-                Console.WriteLine("Which kind of goal would you like to make?");
-                Console.WriteLine("1. Checklist");
-                Console.WriteLine("2. Eternal");
-                Console.WriteLine("3. One Time");
-                Console.Write(">");
-                int pick = int.Parse(Console.ReadLine());
-                //and if statement for if they put in an invalid input?
-                Console.Clear();
-                myLog.AddGoal(pick);
+                int pick = 0;
+                while (pick != 1 && pick != 2 && pick != 3)
+                {
+                    Console.WriteLine("Which kind of goal would you like to make?");
+                    Console.WriteLine("1. Checklist");
+                    Console.WriteLine("2. Eternal");
+                    Console.WriteLine("3. One Time");
+                    Console.Write(">");
+                    pick = int.Parse(Console.ReadLine());
+                    if (pick != 1 && pick != 2 && pick != 3)
+                    {
+                        Console.WriteLine("Please pick a valid option.");
+                        Thread.Sleep(1000);
+                        Console.Clear();
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        myLog.AddGoal(pick);
+                    }
+                }
             }
 
             else if (selection == 2)
             {
-                myLog.DisplayGoals();  
+                myLog.DisplayGoals();
+                Console.WriteLine("Press Enter to go back to the menu.");
+                Console.ReadLine();  
             }
 
             else if (selection == 3)
@@ -55,11 +69,26 @@ class Program
 
             else if (selection == 5)
             {
-                Console.WriteLine("Which goal would you like to record an event for?");
-                myLog.DisplayGoals();
-                Console.Write(">");
-                int goalNum = int.Parse(Console.ReadLine());
-                myLog.GetGoalList()[goalNum].RecordEvent();
+                int goalNum = -1;
+                while (goalNum < 0 || goalNum > myLog.GetGoalList().Count - 1)
+                {
+                    Console.WriteLine("Which goal would you like to record an event for?");
+                    myLog.DisplayGoals();
+                    Console.Write(">");
+                    goalNum = int.Parse(Console.ReadLine()) - 1;
+                    if (goalNum < 0 || goalNum > myLog.GetGoalList().Count - 1)
+                    {
+                        Console.WriteLine("Please input a valid value.");
+                        Thread.Sleep(1000);
+                        Console.Clear();
+                    }
+                    else
+                    {
+                        myLog.GetGoalList()[goalNum].RecordEvent();
+                        Thread.Sleep(2000);
+                        Console.Clear();
+                    }
+                }
             }
             else if (selection == 6)
             {
@@ -69,6 +98,7 @@ class Program
             else
             {
                 Console.WriteLine("Please input the number for your desired option.");
+                Thread.Sleep(1000);
             }
         }
     }

@@ -10,14 +10,28 @@ public class OneTime : Goal
     }
     public override void RecordEvent()
     {
-        _completion = true;
-        Console.WriteLine($"You earned {_points} points!");
+        if (_completion == true)
+        {
+            Console.WriteLine("This goal was already completed.");
+        }
+        else
+        {
+            _completion = true;
+            Console.WriteLine($"You earned {_points} points!");
+        }
         return;
     }
 
     public override int GetTotalPointValue()
     {
-        return _points;
+        if (_completion == true)
+        {
+            return _points;
+        }
+        else
+        {
+            return 0;
+        }
     }
     public override string FileDisplay()
     {

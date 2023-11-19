@@ -21,12 +21,19 @@ public class Checklist : Goal
     }
     public override void RecordEvent()
     {
-        _current += 1;
-        Console.WriteLine($"You earned {_points} points!");
-        if (_current == _total)
+        if (_completion == true)
         {
-            Console.WriteLine($"You completed this goal, so you earned an extra {_bonusPoints} points!");
-            _completion = true;
+            Console.WriteLine("This goal was already complete.");
+        }
+        else
+        {
+            _current += 1;
+            Console.WriteLine($"You earned {_points} points!");
+            if (_current == _total)
+            {
+                Console.WriteLine($"You completed this goal, so you earned an extra {_bonusPoints} points!");
+                _completion = true;
+            }
         }
         return;
     }
@@ -54,6 +61,6 @@ public class Checklist : Goal
     }
     public override string FileDisplay()
     {
-        return $"Checklist Goal~{_name}~{_description}~{_points}~{_completion}~{_total}~{_current}~{_bonusPoints}";
+        return $"Checklist~{_name}~{_description}~{_points}~{_completion}~{_total}~{_current}~{_bonusPoints}";
     }
 }
