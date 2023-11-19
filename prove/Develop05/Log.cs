@@ -3,9 +3,17 @@ public class Log
     private string _fileName;
     private List<Goal> _goalList = new List<Goal>();
 
+    public Log()
+    {
+        _fileName = "default.txt";
+    }
     public Log(string file) //do i need this constructor?
     {
         _fileName = file;
+    }
+    public List<Goal> GetGoalList()
+    {
+        return _goalList;
     }
     public int GetTotalPoints()
     {
@@ -18,16 +26,84 @@ public class Log
     }
     public void DisplayGoals() //do i need one for incomplete goals for event recording?
     {
+        int count = 1;
         foreach (Goal g in _goalList)
         {
-            //display it with a number!
+            Console.Write($"{count}. ");
             g.DisplayGoal();
+            count ++;
         }
         return;
     }
-    public void AddGoal()
+    public void AddGoal(int choice)
     {
         //conditionals for each type of goal
+        //or make three separate ones??
+        if (choice == 1)
+        {
+            _goalList.Add(AddChecklist());
+        }
+        else if (choice == 2)
+        {
+            _goalList.Add(AddEternal());
+        }
+        else if (choice == 3)
+        {
+            _goalList.Add(AddOneTime());
+        }
+        else
+        {
+            Console.WriteLine("Error.");
+            //tell them to try again?
+        }
+    }
+    private Checklist AddChecklist()
+    {
+        Console.WriteLine("What is the name of your goal?");
+        Console.Write(">");
+        string name = Console.ReadLine();
+        Console.WriteLine("What is the description of your goal?");
+        Console.Write(">");
+        string descrip = Console.ReadLine();
+        Console.WriteLine("How many points is this goal worth?");
+        Console.Write(">");
+        int point = int.Parse(Console.ReadLine());
+        Console.WriteLine("How many times do you want to do this goal?");
+        Console.Write(">");
+        int total = int.Parse(Console.ReadLine());
+        Console.WriteLine($"How many bonus points should you get for completing this all {total} times?");
+        Console.Write(">");
+        int bp = int.Parse(Console.ReadLine());
+        Checklist newCheck = new Checklist(name,descrip,point,total,bp);
+        return newCheck;
+    }
+    private Eternal AddEternal()
+    {
+        Console.WriteLine("What is the name of your goal?");
+        Console.Write(">");
+        string name = Console.ReadLine();
+        Console.WriteLine("What is the name of your goal?");
+        Console.Write(">");
+        string descrip = Console.ReadLine();
+        Console.WriteLine("How many points is this goal worth?");
+        Console.Write(">");
+        int point = int.Parse(Console.ReadLine());
+        Eternal newEternal = new Eternal(name,descrip,point);
+        return newEternal;
+    }
+    private OneTime AddOneTime()
+    {
+        Console.WriteLine("What is the name of your goal?");
+        Console.Write(">");
+        string name = Console.ReadLine();
+        Console.WriteLine("What is the name of your goal?");
+        Console.Write(">");
+        string descrip = Console.ReadLine();
+        Console.WriteLine("How many points is this goal worth?");
+        Console.Write(">");
+        int point = int.Parse(Console.ReadLine());
+        OneTime newOneTime = new OneTime(name,descrip,point);
+        return newOneTime;
     }
     public void WriteToFile()
     {
@@ -43,7 +119,7 @@ public class Log
             }
         Console.WriteLine($"Saved successfully as {_fileName}");
     }
-    public List<Goal> LoadFile()
+    public void LoadFile()
     {
         //load txt file to a log
         Console.WriteLine("File name with extension: ");
@@ -72,6 +148,7 @@ public class Log
                 goals.Add(goal1);
             }
         }
-        return goals;
+        _goalList = goals;
+        return;
     }
 }
