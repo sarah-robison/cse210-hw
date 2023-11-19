@@ -1,4 +1,7 @@
 using System;
+//To go above and beyond I made improvements to user interface by clearing the console
+//periodically and adding pauses for the user to read what is displayed.
+//I also added a level tracker.
 
 class Program
 {
@@ -10,9 +13,9 @@ class Program
 
         while (selection != 6)
         {
-            Console.WriteLine($"You have {myLog.GetTotalPoints()} points.\n");
+            myLog.DisplayCurrentLevel();
 
-            Console.WriteLine("Welcome to your goal tracker menu!");
+            Console.WriteLine("\nWelcome to your goal tracker menu!");
             Console.WriteLine("1. Create New Goal");
             Console.WriteLine("2. Display Goals");
             Console.WriteLine("3. Load File");

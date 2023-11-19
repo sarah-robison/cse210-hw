@@ -1,3 +1,5 @@
+using System.Security.Cryptography.X509Certificates;
+
 public class Log
 {
     private string _fileName;
@@ -152,6 +154,14 @@ public class Log
         _goalList = goals;
         Console.WriteLine("File successfully loaded!");
         Thread.Sleep(1000);
+        return;
+    }
+    public void DisplayCurrentLevel()
+    {
+        int level = (GetTotalPoints() / 1500) + 1;
+        Console.WriteLine($"Level {level}");
+        Console.WriteLine($"{GetTotalPoints()}/{(level + 1) * 1500}");
+        Console.WriteLine($"{(level+1)*1500 - GetTotalPoints()} points til next level up!");
         return;
     }
 }
