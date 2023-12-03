@@ -1,24 +1,30 @@
 using System.Net;
 
-public class Projectile : Item
+public abstract class Projectile : Item
 {
     protected List<double> _yPos = new List<double>();
     protected List<double> _yVel = new List<double>();
     protected Wind _wind;
     protected double _area;
     
-    public Projectile(double m, double a, double h_i, double v_i, double d, Wind w, double area) : base(m,a,h_i,v_i,d)
+    public Projectile(double m, double a, double h_i, double v_i, double d, Wind w) : base(m,a,h_i,v_i,d)
     {
         _wind = w;
-        _area = a;
         _yPos.Add(0);
         _yVel.Add(_wind.GetYVel());
         _xVel[0] = _xVel[0] + _wind.GetXVel(); //not sure if this will work
     }
-    public void SetTrajectory()
+    public Projectile(double a, double h_i, double v_i, Wind w) : base(a,h_i,v_i)
+    {
+        _wind = w;
+        _yPos.Add(0);
+        _yVel.Add(_wind.GetYVel());
+        _xVel[0] = _xVel[0] + _wind.GetXVel(); //not sure if this will work
+    }
+    public override void SetTrajectory()
     {
         double g = 9.81;
-        double rho = 1; //put the actual value here
+        double rho = 1.29;
         double dt = 0.01;
         double az;
         double ax;
@@ -46,11 +52,7 @@ public class Projectile : Item
     {
         return Math.Sqrt(_xPos[-1]*_xPos[-1] + _yPos[-1]*_yPos[-1]);
     }
-    public override void DisplaySummary()
-    {
-        Console.WriteLine("Insert Summary here.");
-        return;
-    }
+    public override abstract void DisplaySummary();
     public double GetXFinal()
     {
         return _xPos[-1];
