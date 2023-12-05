@@ -32,10 +32,10 @@ public abstract class Projectile : Item
 
         while (_zPos[-1] > 0)
         {
-            //do i need to find the total velocity vector and then drag and then break it up into components??
-            az = rho*_area*_dragCoeff*_zVel[-1]*Math.Abs(_zVel[-1])/_mass - g; //check this equation to make sure its right
-            ax = rho*_area*_dragCoeff*_xVel[-1]*Math.Abs(_xVel[-1])/_mass;
-            ay = rho*_area*_dragCoeff*_yVel[-1]*Math.Abs(_yVel[-1])/_mass;
+            double v = Math.Sqrt(_xVel[-1]*_xVel[1] + _yVel[-1]*_yVel[1] + _zVel[-1]*_zVel[1]);
+            az = -(1/2)*rho*_area*_dragCoeff*_zVel[-1]*Math.Abs(v)/_mass - g;
+            ax = -(1/2)*rho*_area*_dragCoeff*_xVel[-1]*Math.Abs(v)/_mass;
+            ay = -(1/2)*rho*_area*_dragCoeff*_yVel[-1]*Math.Abs(v)/_mass;
 
             _xVel.Add(_xVel[-1] + ax*dt);
             _yVel.Add(_yVel[-1] + ay*dt);
