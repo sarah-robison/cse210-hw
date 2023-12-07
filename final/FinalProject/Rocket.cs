@@ -9,13 +9,6 @@ public class Rocket : Item
     private double _exhaustVel;
     private double _burnRate;
 
-    public Rocket(double mass, double ang, double hi, double r, double fm, double br, double ex) : base(mass,ang,hi)
-    {
-        _area = r * r * Math.PI;
-        _exhaustVel = ex;
-        _burnRate = br;
-        _fuelMass = fm;
-    }
     public Rocket()
     {
         _dragCoeff = 0.75;

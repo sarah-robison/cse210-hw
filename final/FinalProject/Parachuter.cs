@@ -5,15 +5,8 @@ public class Parachuter : Item
     private double _deployHeight;
     private double _skydiverArea;
 
-    public Parachuter(double mass, double hi, double deployH) : base(mass,hi)
-    {//change these values now that its working?
-        _parachuteArea = 5.5 * 5.5 * Math.PI; //looked up military parachute sizes
-        _skydiverDragCoeff = 0.58; //looked this up as well
-        _skydiverArea = 1.04; //same comment as line above
-        _deployHeight = deployH;
-    }
     public Parachuter()
-    {
+    {//make sure these values are correct
         _dragCoeff = 1.75;//military parachute drag coefficient
         _parachuteArea = 5.5 * 5.5 * Math.PI; //looked up military parachute sizes
         _skydiverDragCoeff = 0.58; //looked this up as well
@@ -40,7 +33,7 @@ public class Parachuter : Item
         double dt = 0.01;
         double az;
 
-        while (_zPos[^1] > 0)
+        while (_zPos[^1] > -0.0001)
         {
             rho = 1.2 * Math.Exp(-1 * _zPos[^1] / 10000);//a model for the change in air density as a function of altitude
             if (_zPos[^1] > _deployHeight)//before the parachute is deployed

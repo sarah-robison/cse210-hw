@@ -12,37 +12,6 @@ public abstract class Item
     protected List<double> _zVel = new List<double>();
     protected List<double> _time = new List<double>();
 
-    public Item(double mass, double ang, double hi, double vi)
-    {
-        _mass = mass;
-        _launchAngle = ang;
-        _vInitial  = vi;
-        _xPos.Add(0);
-        _zPos.Add(hi);
-        _time.Add(0);
-        _xVel.Add(_vInitial * Math.Cos(_launchAngle * Math.PI/180));
-        _zVel.Add(_vInitial * Math.Sin(_launchAngle * Math.PI/180));
-
-    }
-    public Item(double mass, double hi) //for the parachuter class
-    {
-        _mass = mass;
-        _dragCoeff = 1.75;
-        _zPos.Add(hi);
-        _zVel.Add(0);
-        _time.Add(0);
-    }
-    public Item(double mass, double ang, double hi)//for the rocket class
-    {
-        _mass = mass;
-        _launchAngle = ang;
-        _dragCoeff = 0.75;
-        _xPos.Add(0);
-        _zPos.Add(hi);
-        _time.Add(0);
-        _xVel.Add(_vInitial * Math.Cos(_launchAngle * Math.PI/180));//are these needed?
-        _zVel.Add(_vInitial * Math.Sin(_launchAngle * Math.PI/180));//needed?
-    }
     public Item()
     {
         _time.Add(0);

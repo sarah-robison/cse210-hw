@@ -6,20 +6,6 @@ public abstract class Projectile : Item
     protected List<double> _yVel = new List<double>();
     protected Wind _wind;
     
-    public Projectile(double m, double a, double h_i, double v_i, Wind w) : base(m,a,h_i,v_i)
-    {
-        _wind = w;
-        _yPos.Add(0);
-        _yVel.Add(_wind.GetYVel());
-        _xVel[0] = _xVel[0] + _wind.GetXVel(); //not sure if this will work, idk if it will do the Item class constructor first. In fact I don't think it will
-    }
-    public Projectile(double a, double h_i, double v_i, Wind w) : base(a,h_i,v_i)//this is using the rocket constructor
-    {
-        _wind = w;
-        _yPos.Add(0);
-        _yVel.Add(_wind.GetYVel());
-        _xVel[0] = _xVel[0] + _wind.GetXVel(); //not sure if this will work
-    }
     public Projectile()
     {
         Console.WriteLine("What is the launch angle in degrees above the horizontal?");
@@ -55,7 +41,7 @@ public abstract class Projectile : Item
         double ax;
         double ay;
 
-        while (_zPos[^1] > 0)
+        while (_zPos[^1] > -0.00001)
         {
             var v = Math.Sqrt(_xVel[^1]*_xVel[^1] + _yVel[^1]*_yVel[^1] + _zVel[^1]*_zVel[^1]);
             az = -0.5*rho*_area*_dragCoeff*_zVel[^1]*Math.Abs(v)/_mass - g;

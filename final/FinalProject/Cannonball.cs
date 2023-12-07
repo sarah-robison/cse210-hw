@@ -1,13 +1,7 @@
 public class Cannonball : Projectile
 {
     private double _radius;
-
-    public Cannonball(double m, double a, double h_i, double v_i, Wind w, double r) : base(m,a,h_i,v_i,w)
-    {
-        _radius = r;
-        _area = _radius * _radius * Math.PI;
-        _dragCoeff = 0.02;//check to see if this value is right
-    }
+    
     public Cannonball()
     {
         Console.WriteLine("What is the mass in kilograms of the cannonball?");
