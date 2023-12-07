@@ -10,9 +10,9 @@ public class Rocket : Item
     private double _burnRate;
     private double _area;
 
-    public Rocket(double mass, double ang, double hi, double a, double fm, double br, double ex) : base(mass,ang,hi)
+    public Rocket(double mass, double ang, double hi, double r, double fm, double br, double ex) : base(mass,ang,hi)
     {
-        _area = a; //change this later to a radius????
+        _area = r * r * Math.PI;
         _exhaustVel = ex;
         _burnRate = br;
         _fuelMass = fm;
@@ -32,14 +32,14 @@ public class Rocket : Item
             //var theta = Math.Atan(_zVel[^1]/_xVel[^1]);//dividing by zero issue??
             if (_fuelMass > 0)
             {
-                _fuelMass = _fuelMass - _burnRate * dt;
-                _mass = _mass - _burnRate * dt;
-                az = _burnRate * _exhaustVel/_mass - (1/2)*rho*_area*_dragCoeff*_zVel[^1]*Math.Abs(_zVel[^1])/_mass - g;
+                _fuelMass -= _burnRate * dt;
+                _mass -= _burnRate * dt;
+                az = _burnRate * _exhaustVel/_mass - 0.5*rho*_area*_dragCoeff*_zVel[^1]*Math.Abs(_zVel[^1])/_mass - g;
                 //ax = _burnRate * _exhaustVel/_mass * Math.Cos(theta) - (1/2)*rho*_area*_dragCoeff*_xVel[^1]*Math.Abs(v)/_mass;
             }
             else
             {
-                az = -(1/2)*rho*_area*_dragCoeff*_zVel[^1]*Math.Abs(_zVel[^1])/_mass - g;
+                az = -0.5*rho*_area*_dragCoeff*_zVel[^1]*Math.Abs(_zVel[^1])/_mass - g;
                 //ax = -(1/2)*rho*_area*_dragCoeff*_xVel[^1]*Math.Abs(v)/_mass;
             }
             //_xVel.Add(_xVel[^1] + ax*dt);

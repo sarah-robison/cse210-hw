@@ -6,7 +6,7 @@ public class Cannonball : Projectile
     {
         _radius = r;
         _area = _radius * _radius * Math.PI;
-        _dragCoeff = 0.5;
+        _dragCoeff = 0.02;//this will override whatever the user inputs so maybe just remove the input
     }
     public override void DisplaySummary()
     {

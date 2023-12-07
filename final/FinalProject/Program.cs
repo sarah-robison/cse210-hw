@@ -18,25 +18,22 @@ class Program
         int choice = int.Parse(Console.ReadLine());
         if (choice == 1)
         {//testing
-            Cannonball test = new Cannonball(0.1,0,100,0,0.05,new Wind(0,0),0.25);
+            Cannonball test = new Cannonball(0.1,0,100,0,0.02,new Wind(0,0),0.25);
             test.SetTrajectory();
             Console.WriteLine(test.GetXFinal());
             Console.WriteLine(test.GetLandTime());
-            //this is coming out too small
         }
         if (choice == 2)
         {
-            Parachuter testP = new Parachuter(73,39000,0);
+            Parachuter testP = new Parachuter(73,39000,1500);
             testP.SetTrajectory();
             Console.WriteLine(testP.GetLandTime());
-            //gives a value of 89 seconds and doesn't change based on deploy height or anything apparently
         }
         if (choice == 3)
         {
-            Rocket testR = new Rocket(180,90,0.001,(0.2*0.2*Math.PI),130,2.5,1500);
+            Rocket testR = new Rocket(180,90,0.001,0.2,130,2.5,1500);
             testR.SetTrajectory();
             Console.WriteLine(testR.GetLandTime());
-            //this is coming out as 70 when it should be over 185
         }
         if (choice == 4)
         {

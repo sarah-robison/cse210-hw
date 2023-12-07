@@ -33,9 +33,9 @@ public abstract class Projectile : Item
         while (_zPos[^1] > 0)
         {
             var v = Math.Sqrt(_xVel[^1]*_xVel[^1] + _yVel[^1]*_yVel[^1] + _zVel[^1]*_zVel[^1]);
-            az = -(1/2)*rho*_area*_dragCoeff*_zVel[^1]*Math.Abs(v)/_mass - g;
-            ax = -(1/2)*rho*_area*_dragCoeff*_xVel[^1]*Math.Abs(v)/_mass;
-            ay = -(1/2)*rho*_area*_dragCoeff*_yVel[^1]*Math.Abs(v)/_mass; //do i need a different area for arrows from this POV
+            az = -0.5*rho*_area*_dragCoeff*_zVel[^1]*Math.Abs(v)/_mass - g;
+            ax = -0.5*rho*_area*_dragCoeff*_xVel[^1]*Math.Abs(v)/_mass;
+            ay = -0.5*rho*_area*_dragCoeff*_yVel[^1]*Math.Abs(v)/_mass; //do i need a different area for arrows from this POV
 
             _xVel.Add(_xVel[^1] + ax*dt);
             _yVel.Add(_yVel[^1] + ay*dt);

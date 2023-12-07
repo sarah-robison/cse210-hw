@@ -24,11 +24,11 @@ public class Parachuter : Item
             rho = 1.2 * Math.Exp(-1 * _zPos[^1] / 10000);
             if (_zPos[^1] > _deployHeight)
             {
-                az = (-1/2) * rho * _skydiverArea * _skydiverDragCoeff * _zVel[^1] * Math.Abs(_zVel[^1]) / _mass - g;
+                az = -0.5 * rho * _skydiverArea * _skydiverDragCoeff * _zVel[^1] * Math.Abs(_zVel[^1]) / _mass - g;
             }
             else
             {
-                az = (-1/2) * rho * _parachuteArea * _dragCoeff * _zVel[^1] * Math.Abs(_zVel[^1]) /_mass - g;
+                az = -0.5 * rho * _parachuteArea * _dragCoeff * _zVel[^1] * Math.Abs(_zVel[^1]) / _mass - g;
             }
             _zVel.Add(_zVel[^1] + az*dt);
             _zPos.Add(_zPos[^1] + _zVel[^1]*dt);
