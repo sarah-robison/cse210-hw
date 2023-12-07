@@ -8,26 +8,27 @@ public class Parachuter : Item
     public Parachuter(double mass, double hi, double deployH) : base(mass,hi)
     {
         _parachuteArea = 5.5 * 5.5 * Math.PI; //looked up military parachute sizes
-        _skydiverDragCoeff = 0.7; //looked this up as well, assumes falling headfirst
-        _skydiverArea = 0.18; //same comment as line above
+        _skydiverDragCoeff = 0.58; //looked this up as well, assumes falling headfirst
+        _skydiverArea = 1.04; //same comment as line above
         _deployHeight = deployH;
     }
     public override void SetTrajectory()
     {
         double g = 9.81;
-        double rho = 1.29; //might change this to vary with height
+        double rho;
         double dt = 0.01;
         double az;
 
         while (_zPos[^1] > 0)
         {
+            rho = 1.2 * Math.Exp(-1 * _zPos[^1] / 10000);
             if (_zPos[^1] > _deployHeight)
             {
-                az = -(1/2)*rho*_skydiverArea*_skydiverDragCoeff*_zVel[^1]*Math.Abs(_zVel[^1])/_mass - g;
+                az = (-1/2) * rho * _skydiverArea * _skydiverDragCoeff * _zVel[^1] * Math.Abs(_zVel[^1]) / _mass - g;
             }
             else
             {
-                az = -(1/2)*rho*_parachuteArea*_dragCoeff*_zVel[^1]*Math.Abs(_zVel[^1])/_mass - g;
+                az = (-1/2) * rho * _parachuteArea * _dragCoeff * _zVel[^1] * Math.Abs(_zVel[^1]) /_mass - g;
             }
             _zVel.Add(_zVel[^1] + az*dt);
             _zPos.Add(_zPos[^1] + _zVel[^1]*dt);

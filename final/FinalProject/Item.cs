@@ -33,7 +33,7 @@ public abstract class Item
         _zVel.Add(0);
         _time.Add(0);
     }
-    public Item(double mass, double ang, double hi)
+    public Item(double mass, double ang, double hi)//for the rocket class
     {
         _mass = mass;
         _launchAngle = ang;
@@ -41,8 +41,8 @@ public abstract class Item
         _xPos.Add(0);
         _zPos.Add(hi);
         _time.Add(0);
-        _xVel.Add(_vInitial * Math.Cos(_launchAngle * Math.PI/180));
-        _zVel.Add(_vInitial * Math.Sin(_launchAngle * Math.PI/180));
+        _xVel.Add(_vInitial * Math.Cos(_launchAngle * Math.PI/180));//are these needed?
+        _zVel.Add(_vInitial * Math.Sin(_launchAngle * Math.PI/180));//needed?
     }
     public abstract void SetTrajectory();
     public virtual double GetRange()
