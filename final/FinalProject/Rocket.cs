@@ -37,38 +37,38 @@ public class Rocket : Item
 
         _xPos.Add(0);
         _zPos.Add(_hInitial);
-        _xVel.Add(_vInitial * Math.Cos(_launchAngle * Math.PI/180));//are these needed?
-        _zVel.Add(_vInitial * Math.Sin(_launchAngle * Math.PI/180));//needed?
+        _xVel.Add(_vInitial * Math.Cos(_launchAngle * Math.PI/180));
+        _zVel.Add(_vInitial * Math.Sin(_launchAngle * Math.PI/180));
     }
-    public override void SetTrajectory()//account for change in air density and gravity?
+    public override void SetTrajectory()//account for change in gravity?
     {
         double g = 9.81; //might change this to vary with height
         double rho;
         double dt = 0.01;
         double az;
-        //double ax;
+        double ax;
 
         while (_zPos[^1] > -0.00001)
         {
             rho = Math.Pow(1.09 - (0.0065 * _zPos[^1] / 300),2.5);
-            //var v = Math.Sqrt(_xVel[^1]*_xVel[^1] + _zVel[^1]*_zVel[^1]);
-            //var theta = Math.Atan(_zVel[^1]/_xVel[^1]);//dividing by zero issue??
+            var v = Math.Sqrt(_xVel[^1]*_xVel[^1] + _zVel[^1]*_zVel[^1]);
+            //var theta = Math.PI/2 - Math.Atan(_xVel[^1]/_zVel[^1]);//might not need this angle after all, but I'll keep it here just in case
             if (_fuelMass > 0)
             {
                 _fuelMass -= _burnRate * dt;
                 _mass -= _burnRate * dt;
-                az = _burnRate * _exhaustVel/_mass - 0.5*rho*_area*_dragCoeff*_zVel[^1]*Math.Abs(_zVel[^1])/_mass - g;
-                //ax = _burnRate * _exhaustVel/_mass * Math.Cos(theta) - (1/2)*rho*_area*_dragCoeff*_xVel[^1]*Math.Abs(v)/_mass;
+                az = _burnRate * _exhaustVel/_mass * Math.Sin(_launchAngle) - 0.5*rho*_area*_dragCoeff*_zVel[^1]*Math.Abs(v)/_mass - g;
+                ax = _burnRate * _exhaustVel/_mass * Math.Cos(_launchAngle) - 0.5*rho*_area*_dragCoeff*_xVel[^1]*Math.Abs(v)/_mass;
             }
             else
             {
-                az = -0.5*rho*_area*_dragCoeff*_zVel[^1]*Math.Abs(_zVel[^1])/_mass - g;
-                //ax = -(1/2)*rho*_area*_dragCoeff*_xVel[^1]*Math.Abs(v)/_mass;
+                az = -0.5*rho*_area*_dragCoeff*_zVel[^1]*Math.Abs(v)/_mass - g;
+                ax = -0.5*rho*_area*_dragCoeff*_xVel[^1]*Math.Abs(v)/_mass;
             }
-            //_xVel.Add(_xVel[^1] + ax*dt);
+            _xVel.Add(_xVel[^1] + ax*dt);
             _zVel.Add(_zVel[^1] + az*dt);
 
-            //_xPos.Add(_xPos[^1] + _xVel[^1]*dt);
+            _xPos.Add(_xPos[^1] + _xVel[^1]*dt);
             _zPos.Add(_zPos[^1] + _zVel[^1]*dt);
             _time.Add(_time[^1] + dt);
 
