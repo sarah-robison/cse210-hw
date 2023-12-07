@@ -12,7 +12,7 @@ public abstract class Projectile : Item
         _wind = w;
         _yPos.Add(0);
         _yVel.Add(_wind.GetYVel());
-        _xVel[0] = _xVel[0] + _wind.GetXVel(); //not sure if this will work
+        _xVel[0] = _xVel[0] + _wind.GetXVel(); //not sure if this will work, idk if it will do the Item class constructor first. In fact I don't think it will
     }
     public Projectile(double a, double h_i, double v_i, Wind w) : base(a,h_i,v_i)
     {
@@ -30,35 +30,35 @@ public abstract class Projectile : Item
         double ax;
         double ay;
 
-        while (_zPos[-1] > 0)
+        while (_zPos[^1] > 0)
         {
-            double v = Math.Sqrt(_xVel[-1]*_xVel[1] + _yVel[-1]*_yVel[1] + _zVel[-1]*_zVel[1]);
-            az = -(1/2)*rho*_area*_dragCoeff*_zVel[-1]*Math.Abs(v)/_mass - g;
-            ax = -(1/2)*rho*_area*_dragCoeff*_xVel[-1]*Math.Abs(v)/_mass;
-            ay = -(1/2)*rho*_area*_dragCoeff*_yVel[-1]*Math.Abs(v)/_mass;
+            var v = Math.Sqrt(_xVel[^1]*_xVel[^1] + _yVel[^1]*_yVel[^1] + _zVel[^1]*_zVel[^1]);
+            az = -(1/2)*rho*_area*_dragCoeff*_zVel[^1]*Math.Abs(v)/_mass - g;
+            ax = -(1/2)*rho*_area*_dragCoeff*_xVel[^1]*Math.Abs(v)/_mass;
+            ay = -(1/2)*rho*_area*_dragCoeff*_yVel[^1]*Math.Abs(v)/_mass; //do i need a different area for arrows from this POV
 
-            _xVel.Add(_xVel[-1] + ax*dt);
-            _yVel.Add(_yVel[-1] + ay*dt);
-            _zVel.Add(_zVel[-1] + az*dt);
+            _xVel.Add(_xVel[^1] + ax*dt);
+            _yVel.Add(_yVel[^1] + ay*dt);
+            _zVel.Add(_zVel[^1] + az*dt);
 
-            _xPos.Add(_xPos[-1] + _xVel[-1]*dt);
-            _yPos.Add(_yPos[-1] + _yVel[-1]*dt);
-            _zPos.Add(_zPos[-1] + _zVel[-1]*dt);
-            _time.Add(_time[-1] + dt);
+            _xPos.Add(_xPos[^1] + _xVel[^1]*dt);
+            _yPos.Add(_yPos[^1] + _yVel[^1]*dt);
+            _zPos.Add(_zPos[^1] + _zVel[^1]*dt);
+            _time.Add(_time[^1] + dt);
         }
 
     }
     public override double GetRange()
     {
-        return Math.Sqrt(_xPos[-1]*_xPos[-1] + _yPos[-1]*_yPos[-1]);
+        return Math.Sqrt(_xPos[^1]*_xPos[^1] + _yPos[^1]*_yPos[^1]);
     }
     public override abstract void DisplaySummary();
     public double GetXFinal()
     {
-        return _xPos[-1];
+        return _xPos[^1];
     }
     public double GetYFinal()
     {
-        return _yPos[-1];
+        return _yPos[^1];
     }
 }

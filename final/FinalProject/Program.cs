@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 
 class Program
 {
@@ -15,6 +16,19 @@ class Program
         Console.WriteLine("5. Quit Program");
         Console.Write("Select a number to continue: ");
         int choice = int.Parse(Console.ReadLine());
+        if (choice == 1)
+        {//testing
+            Cannonball test = new Cannonball(0.1,0,100,0,0.05,new Wind(0,0),0.25);
+            test.SetTrajectory();
+            Console.WriteLine(test.GetXFinal());
+            Console.WriteLine(test.GetLandTime());
+        }
+        if (choice == 4)
+        {
+            AimingAid RunAimAid = new AimingAid();
+            Console.WriteLine($"The launch angle you need is {RunAimAid.GetLaunchAngle()} degrees.");
+            Console.WriteLine($"You also need to aim {RunAimAid.GetWindAdjustAngle()} degrees to the left of the target.");
+        }
         if (choice == 5)
         {
             Console.WriteLine("Goodbye!");

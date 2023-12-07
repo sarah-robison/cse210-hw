@@ -1,5 +1,6 @@
 using System.ComponentModel;
-
+//list the assumptions
+//need to find a way to handle errors
 public class AimingAid
 {
     private double _hInit;
@@ -40,7 +41,7 @@ public class AimingAid
     public double GetWindAdjustAngle() //Bisection method of root finding
     {
         double end1 = Math.PI/2;
-        double end2 = 0;
+        double end2 = -Math.PI/2;
         double mid = (end1 + end2)/2;
 
         double guess = mid;

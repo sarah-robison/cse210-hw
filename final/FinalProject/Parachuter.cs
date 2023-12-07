@@ -14,6 +14,25 @@ public class Parachuter : Item
     }
     public override void SetTrajectory()
     {
+        double g = 9.81;
+        double rho = 1.29; //might change this to vary with height
+        double dt = 0.01;
+        double az;
+
+        while (_zPos[^1] > 0)
+        {
+            if (_zPos[^1] > _deployHeight)
+            {
+                az = -(1/2)*rho*_skydiverArea*_skydiverDragCoeff*_zVel[^1]*Math.Abs(_zVel[^1])/_mass - g;
+            }
+            else
+            {
+                az = -(1/2)*rho*_parachuteArea*_dragCoeff*_zVel[^1]*Math.Abs(_zVel[^1])/_mass - g;
+            }
+            _zVel.Add(_zVel[^1] + az*dt);
+            _zPos.Add(_zPos[^1] + _zVel[^1]*dt);
+            _time.Add(_time[^1] + dt);
+        }
         
     }
     public double GetLandVelocity()

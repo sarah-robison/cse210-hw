@@ -47,7 +47,7 @@ public abstract class Item
     public abstract void SetTrajectory();
     public virtual double GetRange()
     {
-        return _xPos[-1];
+        return _xPos[^1];
     }
     public double GetMaxHeight()
     {
@@ -55,7 +55,7 @@ public abstract class Item
     }
     public double GetLandTime()
     {
-        return _time[-1];
+        return _time[^1];
     }
     public abstract void DisplaySummary();
 }
