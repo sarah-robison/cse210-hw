@@ -2,22 +2,21 @@ public abstract class Item
 {
     protected double _mass;
     protected double _launchAngle;
-    protected double _hInitial;//do i need this?
+    protected double _hInitial;
     protected double _vInitial;
     protected double _dragCoeff;
-    //add area to this class?
+    protected double _area;
     protected List<double> _xPos = new List<double>();
     protected List<double> _zPos = new List<double>();
     protected List<double> _xVel = new List<double>();
     protected List<double> _zVel = new List<double>();
     protected List<double> _time = new List<double>();
 
-    public Item(double mass, double ang, double hi, double vi, double drag)
+    public Item(double mass, double ang, double hi, double vi)
     {
         _mass = mass;
         _launchAngle = ang;
         _vInitial  = vi;
-        _dragCoeff = drag;
         _xPos.Add(0);
         _zPos.Add(hi);
         _time.Add(0);
@@ -43,6 +42,10 @@ public abstract class Item
         _time.Add(0);
         _xVel.Add(_vInitial * Math.Cos(_launchAngle * Math.PI/180));//are these needed?
         _zVel.Add(_vInitial * Math.Sin(_launchAngle * Math.PI/180));//needed?
+    }
+    public Item()
+    {
+        _time.Add(0);
     }
     public abstract void SetTrajectory();
     public virtual double GetRange()

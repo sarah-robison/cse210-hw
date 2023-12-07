@@ -5,21 +5,46 @@ public abstract class Projectile : Item
     protected List<double> _yPos = new List<double>();
     protected List<double> _yVel = new List<double>();
     protected Wind _wind;
-    protected double _area;
     
-    public Projectile(double m, double a, double h_i, double v_i, double d, Wind w) : base(m,a,h_i,v_i,d)
+    public Projectile(double m, double a, double h_i, double v_i, Wind w) : base(m,a,h_i,v_i)
     {
         _wind = w;
         _yPos.Add(0);
         _yVel.Add(_wind.GetYVel());
         _xVel[0] = _xVel[0] + _wind.GetXVel(); //not sure if this will work, idk if it will do the Item class constructor first. In fact I don't think it will
     }
-    public Projectile(double a, double h_i, double v_i, Wind w) : base(a,h_i,v_i)
+    public Projectile(double a, double h_i, double v_i, Wind w) : base(a,h_i,v_i)//this is using the rocket constructor
     {
         _wind = w;
         _yPos.Add(0);
         _yVel.Add(_wind.GetYVel());
         _xVel[0] = _xVel[0] + _wind.GetXVel(); //not sure if this will work
+    }
+    public Projectile()
+    {
+        Console.WriteLine("What is the launch angle in degrees above the horizontal?");
+        Console.Write(">");
+        _launchAngle = double.Parse(Console.ReadLine());
+        Console.WriteLine("What is the initial height in meters to be launched from?");
+        Console.Write(">");
+        _hInitial = double.Parse(Console.ReadLine());
+        Console.WriteLine("What is the launch velocity in meters per second?");
+        Console.Write(">");
+        _vInitial = double.Parse(Console.ReadLine());
+        Console.WriteLine("How fast is the wind moving in meters per second?");
+        Console.Write(">");
+        double w_v = double.Parse(Console.ReadLine());
+        Console.WriteLine("What direction (in degrees) is the wind blowing in (positive angle measured to the left of the line connecting the launcher and target)?");
+        Console.Write(">");
+        double w_a = double.Parse(Console.ReadLine());
+        _wind = new Wind(w_v,w_a);
+
+        _xPos.Add(0);
+        _zPos.Add(_hInitial);
+        _xVel.Add(_vInitial * Math.Cos(_launchAngle * Math.PI/180) + _wind.GetXVel());
+        _zVel.Add(_vInitial * Math.Sin(_launchAngle * Math.PI/180));
+        _yPos.Add(0);
+        _yVel.Add(_wind.GetYVel());
     }
     public override void SetTrajectory()
     {

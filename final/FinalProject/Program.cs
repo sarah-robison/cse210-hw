@@ -1,6 +1,10 @@
 using System;
 using System.Runtime.InteropServices;
-
+//Future improvement ideas: rework it to run using 4th order Runge Kutta instead of Euler's method, 
+//allow for complete customization of projectiles, rockets, and parachuters,
+//implement an x and y velocity for parachuters and a y velocity for rockets,
+//allow for multistage rockets,
+//refine the cases for rockets escaping the Earth's gravitational pull
 class Program
 {
     static void Main(string[] args)
@@ -18,27 +22,49 @@ class Program
         int choice = int.Parse(Console.ReadLine());
         if (choice == 1)
         {//testing
-            Cannonball test = new Cannonball(0.1,0,100,0,0.02,new Wind(0,0),0.25);
-            test.SetTrajectory();
-            Console.WriteLine(test.GetXFinal());
-            Console.WriteLine(test.GetLandTime());
+            int pick = 0;
+            while (pick != 1 && pick != 2)
+            {
+                Console.WriteLine("What type of projectile would you like to fire?");
+                Console.WriteLine("1. Cannonball");
+                Console.WriteLine("2. Arrow");
+                Console.Write(">");
+                pick = int.Parse(Console.ReadLine());
+
+                if (pick == 1)
+                {
+                    Cannonball testc = new Cannonball();
+                    testc.SetTrajectory();
+                    Console.WriteLine(testc.GetLandTime());
+                }
+                else if (pick == 2)
+                {
+                    Arrow testa = new Arrow();
+                    testa.SetTrajectory();
+                    Console.WriteLine(testa.GetLandTime());
+                }
+                else
+                {
+                Console.WriteLine("Please input a valid value.");
+                }
+            }
         }
         if (choice == 2)
         {
-            Parachuter testP = new Parachuter(73,39000,1500);
+            Parachuter testP = new Parachuter();
             testP.SetTrajectory();
             Console.WriteLine(testP.GetLandTime());
         }
         if (choice == 3)
         {
-            Rocket testR = new Rocket(180,90,0.001,0.2,130,2.5,1500);
+            Rocket testR = new Rocket();
             testR.SetTrajectory();
             Console.WriteLine(testR.GetLandTime());
         }
         if (choice == 4)
         {
             AimingAid RunAimAid = new AimingAid();
-            Console.WriteLine($"The launch angle you need is {RunAimAid.GetLaunchAngle()} degrees.");
+            Console.WriteLine($"The launch angle you need is {RunAimAid.GetLaunchAngle()} degrees above the horizontal.");
             Console.WriteLine($"You also need to aim {RunAimAid.GetWindAdjustAngle()} degrees to the left of the target.");
         }
         if (choice == 5)
