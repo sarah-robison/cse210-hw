@@ -3,8 +3,7 @@ using System.Runtime.InteropServices;
 //Future improvement ideas: rework it to run using 4th order Runge Kutta instead of Euler's method, 
 //allow for complete customization of projectiles, rockets, and parachuters,
 //implement an x and y velocity for parachuters and a y velocity for rockets,
-//allow for multistage rockets,
-//refine the cases for rockets escaping the Earth's gravitational pull
+//allow for multistage rockets
 class Program
 {
     static void Main(string[] args)
@@ -38,13 +37,13 @@ class Program
                     {
                         Cannonball testCannonball = new Cannonball();
                         testCannonball.SetTrajectory();
-                        Console.WriteLine(testCannonball.GetLandTime());
+                        testCannonball.DisplaySummary();
                     }
                     else if (pick == 2)
                     {
                         Arrow testArrow = new Arrow();
                         testArrow.SetTrajectory();
-                        Console.WriteLine(testArrow.GetLandTime());
+                        testArrow.DisplaySummary();
                     }
                     else
                     {
@@ -56,19 +55,18 @@ class Program
             {
                 Parachuter testPara = new Parachuter();
                 testPara.SetTrajectory();
-                Console.WriteLine(testPara.GetLandTime());
+                testPara.DisplaySummary();
             }
             else if (choice == 3)
             {
                 Rocket testRocket = new Rocket();
                 testRocket.SetTrajectory();
-                Console.WriteLine(testRocket.GetLandTime());
+                testRocket.DisplaySummary();
             }
             else if (choice == 4)
             {
                 AimingAid RunAimAid = new AimingAid();
-                Console.WriteLine($"The launch angle you need is {RunAimAid.GetLaunchAngle()} degrees above the horizontal.");
-                Console.WriteLine($"You also need to aim {RunAimAid.GetWindAdjustAngle()} degrees to the left of the target.");
+                RunAimAid.DisplayResults();
             }
             else if (choice == 5)
             {

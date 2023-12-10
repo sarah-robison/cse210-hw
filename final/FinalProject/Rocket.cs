@@ -1,7 +1,8 @@
 using System.ComponentModel;
 using System.Security.Cryptography.X509Certificates;
 
-//describe assumptions
+//Assumptions: the force of thrust, burn rate, and exhaust velocity are all constant. 
+//The direction of thrust is always the initial launch angle.
 
 public class Rocket : Item
 {
@@ -40,25 +41,27 @@ public class Rocket : Item
         _xVel.Add(_vInitial * Math.Cos(_launchAngle * Math.PI/180));
         _zVel.Add(_vInitial * Math.Sin(_launchAngle * Math.PI/180));
     }
-    public override void SetTrajectory()//account for change in gravity?
+    public override void SetTrajectory()
     {
-        double g = 9.81; //might change this to vary with height
+        double g;
         double rho;
         double dt = 0.01;
         double az;
         double ax;
+        double radiusEarth = 6370000.0;
 
         while (_zPos[^1] > -0.00001)
         {
+            g = 9.81/(1+_zPos[^1]/radiusEarth)/(1+_zPos[^1]/radiusEarth);
             rho = Math.Pow(1.09 - (0.0065 * _zPos[^1] / 300),2.5);
-            var v = Math.Sqrt(_xVel[^1]*_xVel[^1] + _zVel[^1]*_zVel[^1]);
-            //var theta = Math.PI/2 - Math.Atan(_xVel[^1]/_zVel[^1]);//might not need this angle after all, but I'll keep it here just in case
-            if (_fuelMass > 0)
+            double v = Math.Sqrt(_xVel[^1]*_xVel[^1] + _zVel[^1]*_zVel[^1]);
+            //double theta = Math.PI/2 - Math.Atan(_xVel[^1]/_zVel[^1]);//current angle of velocity
+            if (_fuelMass > 0.0)
             {
                 _fuelMass -= _burnRate * dt;
                 _mass -= _burnRate * dt;
-                az = _burnRate * _exhaustVel/_mass * Math.Sin(_launchAngle) - 0.5*rho*_area*_dragCoeff*_zVel[^1]*Math.Abs(v)/_mass - g;
-                ax = _burnRate * _exhaustVel/_mass * Math.Cos(_launchAngle) - 0.5*rho*_area*_dragCoeff*_xVel[^1]*Math.Abs(v)/_mass;
+                az = _burnRate * _exhaustVel/_mass * Math.Sin(_launchAngle*Math.PI/180) - 0.5*rho*_area*_dragCoeff*_zVel[^1]*Math.Abs(v)/_mass - g;
+                ax = _burnRate * _exhaustVel/_mass * Math.Cos(_launchAngle*Math.PI/180) - 0.5*rho*_area*_dragCoeff*_xVel[^1]*Math.Abs(v)/_mass;
             }
             else
             {
@@ -72,27 +75,33 @@ public class Rocket : Item
             _zPos.Add(_zPos[^1] + _zVel[^1]*dt);
             _time.Add(_time[^1] + dt);
 
+            if (v >= 11200.0)//if the rocket passes the escape velocity, it theoretically will never come back down
+            {
+                break;
+            }
+
         }
         
     }
     public override void DisplaySummary()
     {
-        
-    }
-    public override double GetRange()
-    {
+        Console.WriteLine("Rocket Summary:\n");
         if (EscapeEarth() == true)
         {
-            return 0;//better way to handle this?
+            Console.WriteLine("Your rocket surpassed the escape velocity of earth! (11,200 m/s)\n");
         }
         else
         {
-            return _xPos[-1];
+            Console.WriteLine($"Land time: {GetLandTime()} seconds");
+            Console.WriteLine($"Maximum height: {GetMaxHeight()} m");
+            Console.WriteLine($"Distance covered: {GetRange()} m\n");
         }
+        Console.WriteLine("Press ENTER to return to the menu");
+        Console.ReadLine();
     }
-    public bool EscapeEarth()
+    private bool EscapeEarth()
     {
-        if (_zVel.Max() >= 11200)
+        if (_zVel.Max() >= 11200.0)
         {
             return true;
         }

@@ -31,17 +31,17 @@ public class AimingAid
         _crossWind = new Wind(wv,wa);
     }
 
-    public double GetLaunchAngle()
+    private double GetWindAdjustAngle()
     {
         //this was derived from the kinematic equations of physics, and requires that you first calculate the crosswind adjust angle
-        double angle_rad = Math.Acos(-_crossWind.GetYVel()/_launchVel/Math.Sin(GetWindAdjustAngle()*Math.PI/180));
+        double angle_rad = Math.Asin(-_crossWind.GetYVel()/_launchVel/Math.Cos(GetLaunchAngle() * Math.PI/180));
 
         return angle_rad * 180 / Math.PI; //This converts the angle from radians to degrees
     }
-    public double GetWindAdjustAngle() //Bisection method of root finding
+    private double GetLaunchAngle() //Bisection method of root finding
     {
-        double end1 = Math.PI/2;
-        double end2 = -Math.PI/2;
+        double end1 = 0;
+        double end2 = Math.PI/2;
         double mid = (end1 + end2)/2;
 
         double guess = mid;
@@ -66,9 +66,18 @@ public class AimingAid
     private double GetGuess(double g)//The function we are trying to find the root of. Made this separate so it doesn't have to be typed in many times in GetWindAdjustAngle()
     {
         //obtainted this function using the kinematic equations of physics
-        double num1 = _xFinal * Math.Sqrt(_launchVel*_launchVel*Math.Sin(g)*Math.Sin(g) - _crossWind.GetYVel());
-        double den1 = -_crossWind.GetYVel()*Math.Cos(g) + _crossWind.GetXVel()*Math.Sin(g);
-        double den2 = _crossWind.GetYVel()*_crossWind.GetYVel()*Math.Cos(g)*Math.Cos(g)/Math.Sin(g)/Math.Sin(g) - 2*_crossWind.GetYVel()*_crossWind.GetXVel()*Math.Cos(g)/Math.Sin(g) + _crossWind.GetXVel()*_crossWind.GetXVel();
+        double cosAlpha = Math.Sqrt(_launchVel*_launchVel*Math.Cos(g)*Math.Cos(g) - _crossWind.GetYVel()*_crossWind.GetYVel());
+        double num1 = _xFinal * _launchVel * Math.Sin(g);
+        double den1 = _launchVel*Math.Cos(g)*cosAlpha + _crossWind.GetXVel();
+        double den2 = _launchVel*_launchVel*Math.Cos(g)*Math.Cos(g)*cosAlpha*cosAlpha + 2*_launchVel*Math.Cos(g)*cosAlpha*_crossWind.GetXVel() + _crossWind.GetXVel()*_crossWind.GetXVel();
         return _hInit - _hFinal + num1/den1 - 0.5*9.81*_xFinal*_xFinal/den2;
+    }
+    public void DisplayResults()
+    {
+        Console.WriteLine($"The launch angle you need is {GetLaunchAngle()} degrees above the horizontal.");
+        Console.WriteLine($"You also need to aim {GetWindAdjustAngle()} degrees to the left of the target.\n");
+        Console.WriteLine("Press ENTER to return to the menu");
+        Console.ReadLine();
+        return;
     }
 }

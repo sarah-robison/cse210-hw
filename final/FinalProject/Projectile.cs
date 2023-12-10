@@ -5,6 +5,8 @@ public abstract class Projectile : Item
     protected List<double> _yPos = new List<double>();
     protected List<double> _yVel = new List<double>();
     protected Wind _wind;
+    protected double _areaY;
+    protected double _dragCoeffY;
     
     public Projectile()
     {
@@ -40,13 +42,14 @@ public abstract class Projectile : Item
         double az;
         double ax;
         double ay;
+        double v;
 
         while (_zPos[^1] > -0.00001)
         {
-            var v = Math.Sqrt(_xVel[^1]*_xVel[^1] + _yVel[^1]*_yVel[^1] + _zVel[^1]*_zVel[^1]);
+            v = Math.Sqrt(_xVel[^1]*_xVel[^1] + _yVel[^1]*_yVel[^1] + _zVel[^1]*_zVel[^1]);
             az = -0.5*rho*_area*_dragCoeff*_zVel[^1]*Math.Abs(v)/_mass - g;
             ax = -0.5*rho*_area*_dragCoeff*_xVel[^1]*Math.Abs(v)/_mass;
-            ay = -0.5*rho*_area*_dragCoeff*_yVel[^1]*Math.Abs(v)/_mass; //do i need a different area for arrows from this POV
+            ay = -0.5*rho*_areaY*_dragCoeffY*_yVel[^1]*Math.Abs(v)/_mass;
 
             _xVel.Add(_xVel[^1] + ax*dt);
             _yVel.Add(_yVel[^1] + ay*dt);
@@ -59,16 +62,16 @@ public abstract class Projectile : Item
         }
 
     }
-    public override double GetRange()
+    protected override double GetRange()
     {
         return Math.Sqrt(_xPos[^1]*_xPos[^1] + _yPos[^1]*_yPos[^1]);
     }
     public override abstract void DisplaySummary();
-    public double GetXFinal()
+    protected double GetXFinal()
     {
         return _xPos[^1];
     }
-    public double GetYFinal()
+    protected double GetYFinal()
     {
         return _yPos[^1];
     }

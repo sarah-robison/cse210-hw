@@ -17,15 +17,15 @@ public abstract class Item
         _time.Add(0);
     }
     public abstract void SetTrajectory();
-    public virtual double GetRange()
+    protected virtual double GetRange()
     {
         return _xPos[^1];
     }
-    public double GetMaxHeight()
+    protected double GetMaxHeight()
     {
         return _zPos.Max();
     }
-    public double GetLandTime()
+    protected double GetLandTime()
     {
         return _time[^1];
     }
